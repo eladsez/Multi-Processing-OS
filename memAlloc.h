@@ -31,7 +31,7 @@ void split_block(block mblock, size_t size);
 
 //Used to merge adjacency blocks when freeing
 void coalesce(block my_block);
-//Thread-Safe malloc, calloc and free with mutex (pthread locks)
+
 void *my_malloc(size_t size);
 void *my_calloc(size_t nitems, size_t size);
 void my_free(void *ptr);

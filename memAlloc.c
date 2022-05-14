@@ -27,11 +27,8 @@ void init_mem(stack **st){
  */
 block new_space(block last, size_t size) {
     block new_block;
-    new_block = (block) prog_break; //current top of the heap
-    prog_break += size + BLOCK_SIZE;
-    if (new_space == (void *) -1) {
-        return NULL; //sbrk has failed
-    }
+    new_block = (block) prog_break; //the new block pointed to the current top of the heap
+    prog_break += size + BLOCK_SIZE; // moving the program break (the current top of the heap)
 
     if (last) { //when last is not NULL, i.e this is not the first call for malloc. We add a new block at the end of the last block
         last->next = new_block;
@@ -239,11 +236,5 @@ void my_free(void *ptr) {
 }
 
 void free_all(){
-    size_t total_size = 0;
-    block curr = (block) headB;
-    while (curr != NULL){
-        total_size += BLOCK_SIZE + curr->size;
-        curr = curr->next;
-    }
-    munmap(headB, total_size);
+    munmap(headB, 10 * MB);
 }

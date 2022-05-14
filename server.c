@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <fcntl.h>
 #include "stack.h"
 #include "memAlloc.h"
 
@@ -16,15 +17,28 @@
 #define BACKLOG 10   // how many pending connections queue will hold
 
 stack *st;
+int MAIN_PID;
 
 void quitServer(int signal){ // when ctrl+c is pressed
-    freeStack(st);
-    printf("\nstack freed! server quit.\n");
-    free_all();
+    if (getpid() == MAIN_PID) {
+        freeStack(st);
+        printf("\nstack freed! server quit.\n");
+        free_all();
+        unlink("lockfile"); // remove the lock file
+    }
     exit(0);
 }
 
 void client_handle(int cli_fd) {
+    struct flock lock; // for fcntl lock
+    memset (&lock, 0, sizeof(lock));
+
+    int lock_fd = open ("lockfile", O_WRONLY | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO);
+
+    if (lock_fd == -1){
+        perror("failed to open fd");
+        exit(1);
+    }
     char buff[1024];
     while (strncmp(buff, "EXIT", 4)) {
 
@@ -45,6 +59,10 @@ void client_handle(int cli_fd) {
             printf("seems like one of the clients has disconnect\n");
             break;
         }
+
+        // Place write lock on the file only for coding lock purposes
+        lock.l_type = F_WRLCK;
+        fcntl (lock_fd, F_SETLKW, &lock);
 
         if (!strncmp(buff, "TOP", 3)){ // sending stack top to the client
             if (top(st) != NULL) {
@@ -79,8 +97,12 @@ void client_handle(int cli_fd) {
                 printf("client popped\n");
             }
         }
+        // unlock the lockfile
+        lock.l_type = F_UNLCK;
+        fcntl (lock_fd, F_SETLKW, &lock);
 
     }
+    close(lock_fd);
     close(cli_fd);
     printf("client disconnected\n");
 }
@@ -110,6 +132,7 @@ int main(void) {
     init_mem(&st);
     (*st).size = 0; // init the size of the stack
     signal(SIGINT, quitServer);
+    MAIN_PID = getpid();
 
     int sockfd, new_fd;  // listen on sock_fd, new connection on new_fd
     struct addrinfo hints, *servinfo, *p;
