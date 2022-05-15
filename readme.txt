@@ -1,7 +1,7 @@
-The stack implementation is in stack.cpp file.
+The stack implementation is in stack.c file.
 The malloc, calloc and free implementation is in memAlloc.cpp file.
-Our tests are in the test.cpp file.
-This code is thread-safe.
+Our tests are in the test.c file.
+This code is process-safe.
 Also, there is a makefile with make all and make clean targets as requested.
 
                           *-HOW TO RUN-*
@@ -9,7 +9,7 @@ First open a terminal in the thread_os directory and type <make all>.
 Now after everything compiled you can run the server and the client.
 To run the server type <./server>.
 To run the client type <./client 127.0.0.1> (you can change 127.0.0.1 with the ip of the machine the server was bind to)
-We added test.cpp file to test our code and performance
+We added test.c file to test our code and performance
 to run it first compiles it with <make test> rule (not needed if you make all), then run it with <./test>.
 
 
