@@ -3,7 +3,7 @@ The malloc, calloc and free implementation is in memAlloc.c file.
 Our tests are in the test.c file.
 This code is process-safe, by using flock and fcntl.
 Also, there is a makefile with make all and make clean targets as requested.
-
+    
                           *-HOW TO RUN-*
 First open a terminal in the Multi-Processing-OS directory and type <make all>.
 Now after everything compiled you can run the server and the client.
