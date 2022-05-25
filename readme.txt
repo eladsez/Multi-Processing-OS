@@ -1,6 +1,6 @@
-The stack implementation is in stack.c file.
-The malloc, calloc and free implementation is in memAlloc.c file.
-Our tests are in the test.c file.
+The stack implementation is in stack.cpp file.
+The malloc, calloc and free implementation is in memAlloc.cpp file.
+Our tests are in the test.cpp file.
 This code is process-safe, by using flock and fcntl.
 Also, there is a makefile with make all and make clean targets as requested.
     
