@@ -9,18 +9,23 @@
 void *headB = NULL; ///head of our linked list
 void *prog_break = NULL; /// pointer to the program break
 
-void init_mem(stack **st){
+
+/**
+ * This function should call in every program who use this file
+ * @param st
+ */
+void init_mem(){
     prog_break = mmap(NULL, MB * 10, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-    if (prog_break == -1){
-        perror("mmap failed");
-    }
+}
+
+void init_stack_mem(stack **st){
     *st = (stack *)prog_break;
     prog_break += sizeof (stack);
 }
 
 
 /**
- * This function allocate a new memory on the heap with sbrk() system call
+ * This function allocate a new memory by moving the prog_break up
  * @param last The last block in the memory block linked list
  * @param size the size we wish to allocate
  * @return a block struct representing the new memory

@@ -129,7 +129,9 @@ void *get_in_addr(struct sockaddr *sa) {
 int main(void) {
 
 
-    init_mem(&st);
+    init_mem();
+    init_stack_mem(&st);
+
     (*st).size = 0; // init the size of the stack
     signal(SIGINT, quitServer);
     MAIN_PID = getpid();

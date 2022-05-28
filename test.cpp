@@ -11,6 +11,7 @@
  */
 
 TEST_CASE ("memAlloc testing") {
+    init_mem();
     SUBCASE("block split and correct size allocate"){
         int *ptr = (int *) my_malloc(30 * sizeof (int));
         block block120 = (block) ptr - 1;

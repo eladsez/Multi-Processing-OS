@@ -1,7 +1,7 @@
 The stack implementation is in stack.cpp file.
 The malloc, calloc and free implementation is in memAlloc.cpp file.
 Our tests are in the test.cpp file.
-This code is process-safe, by using flock and fcntl.
+This code is process-safe, by using flock struct and fcntl systemc all.
 Also, there is a makefile with make all and make clean targets as requested.
     
                           *-HOW TO RUN-*
@@ -9,7 +9,7 @@ First open a terminal in the Multi-Processing-OS directory and type <make all>.
 Now after everything compiled you can run the server and the client.
 To run the server type <./server>.
 To run the client type <./client 127.0.0.1> (you can change 127.0.0.1 with the ip of the machine the server was bind to)
-We added test.c file to test our code and performance
+We added test.cpp file to test our code and performance
 to run it first compiles it with <make test> rule (not needed if you already used <make all>), then run it with <./test>.
 
 
@@ -22,4 +22,4 @@ When you run the client (after running the server of course) the next commands a
 There is also some outputs when error occurred, like invalid stack command etc.
 
 
-The malloc implementation is inspired from some GitHub repos and stackoverflow.
+The malloc implementation is from the previous assigment in this course (from assigment 4).

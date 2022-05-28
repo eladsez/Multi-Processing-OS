@@ -18,7 +18,10 @@ struct memory_block {
 typedef struct memory_block * block;
 
 // init the process memory
-void init_mem(stack **st);
+void init_mem();
+
+// init the pointer of the stack on the program break and increment him
+void init_stack_mem(stack **st);
 
 //Searching the Best fit memory allocation
 block find_best_block(block * last, size_t size);

@@ -1,31 +1,31 @@
-CC = gcc
+CC = g++
 DBG = -Wall -g
 
-all: client server
+all: client server test
 
-test: test.c memAlloc.a stack.a
-	$(CC) $(DBG) -w test.c memAlloc.a stack.a -o test
-
-client: client.c
-	$(CC) $(DBG) client.c -o client
+client: client.cpp
+	$(CC) $(DBG) client.cpp -o client
 
 server: server.o stack.a memAlloc.a
 	$(CC) $(DBG) server.o stack.a memAlloc.a -o server
 
-server.o: server.c stack.h
-	$(CC) $(DBG) -c server.c
+test: test.cpp memAlloc.a stack.a
+	$(CC) $(DBG) -w test.cpp memAlloc.a stack.a -o test
+
+server.o: server.cpp stack.h
+	$(CC) $(DBG) -c server.cpp
 
 memAlloc.a: memAlloc.o
 	ar -rcs memAlloc.a memAlloc.o
 
-memAlloc.o: memAlloc.c memAlloc.h
-	 $(CC) -c -w memAlloc.c
+memAlloc.o: memAlloc.cpp memAlloc.h
+	 $(CC) -c -w memAlloc.cpp
 
 stack.a: stack.o
 	ar -rcs stack.a stack.o
 
-stack.o: stack.c
-	$(CC) $(DBG) -c stack.c
+stack.o: stack.cpp
+	$(CC) $(DBG) -c stack.cpp
 
 clean:
 	rm -f *.o *.a server client test
